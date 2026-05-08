@@ -1,6 +1,5 @@
 ﻿using System;
 using FishNet;
-using FishNet.Connection;
 using FishNet.Managing.Scened;
 using FishNet.Transporting;
 using FishNet.Transporting.Tugboat;
@@ -22,17 +21,11 @@ namespace Dodgeball.Menu
 
         private void Start()
         {
-            InstanceFinder.ClientManager.OnClientConnectionState += OnClientConnectionState;
             InstanceFinder.ServerManager.OnServerConnectionState += OnServerStarted;
         }
 
         private void OnDestroy()
         {
-            if (InstanceFinder.ClientManager != null)
-            {
-                InstanceFinder.ClientManager.OnClientConnectionState -= OnClientConnectionState;
-            }
-
             if (InstanceFinder.ServerManager != null)
             {
                 InstanceFinder.ServerManager.OnServerConnectionState -= OnServerStarted;
@@ -81,18 +74,6 @@ namespace Dodgeball.Menu
                 };
 
                 InstanceFinder.SceneManager.LoadGlobalScenes(sld);
-            }
-        }
-
-        private void OnClientConnectionState(ClientConnectionStateArgs args)
-        {
-            if (args.ConnectionState == LocalConnectionState.Stopped)
-            {
-                Debug.Log("Client Disconnected");
-            }
-            else if (args.ConnectionState == LocalConnectionState.Started)
-            {
-                Debug.Log("Client Started");
             }
         }
     }
